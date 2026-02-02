@@ -1,22 +1,35 @@
 
 import React from 'react';
 
-const SkillOrb = ({ text }: { text: string }) => (
-    <div className="flex items-center space-x-3 group cursor-help">
-        <div className="w-2.5 h-2.5 min-w-[10px] rounded-full bg-[#00FF00] group-hover:bg-[#FF00FF] group-hover:shadow-[0_0_15px_#FF00FF] transition-all shadow-[0_0_8px_#00FF00]" />
-        <span className="text-[#00FFFF] font-mono text-xs sm:text-sm group-hover:translate-x-2 transition-transform duration-200">{text}</span>
-    </div>
+interface SkillOrbProps {
+  text: string;
+}
+
+const SkillOrb: React.FC<SkillOrbProps> = ({ text }) => (
+  <div className="flex items-center space-x-3 group cursor-help">
+    <div className="w-2.5 h-2.5 min-w-[10px] rounded-full bg-[#00FF00] group-hover:bg-[#FF00FF] group-hover:shadow-[0_0_15px_#FF00FF] transition-all shadow-[0_0_8px_#00FF00]" />
+    <span className="text-[#00FFFF] font-mono text-xs sm:text-sm group-hover:translate-x-2 transition-transform duration-200">
+      {text}
+    </span>
+  </div>
 );
 
-const SkillCategory = ({ title, skills }: { title: string, skills: string[] }) => (
-    <div className="space-y-3">
-        <h5 className="text-[#FF00FF] font-mono text-[10px] tracking-[0.2em] uppercase opacity-70 border-l border-[#FF00FF] pl-2">{title}</h5>
-        <div className="grid grid-cols-1 gap-2">
-            {skills.map((skill, idx) => (
-                <SkillOrb key={idx} text={skill} />
-            ))}
-        </div>
+interface SkillCategoryProps {
+  title: string;
+  skills: string[];
+}
+
+const SkillCategory: React.FC<SkillCategoryProps> = ({ title, skills }) => (
+  <div className="space-y-3">
+    <h5 className="text-[#FF00FF] font-mono text-[10px] tracking-[0.2em] uppercase opacity-70 border-l border-[#FF00FF] pl-2">
+      {title}
+    </h5>
+    <div className="grid grid-cols-1 gap-2">
+      {skills.map((skill) => (
+        <SkillOrb key={skill} text={skill} />
+      ))}
     </div>
+  </div>
 );
 
 export const Teaser: React.FC = () => {
