@@ -9,8 +9,10 @@ import { About } from './components/About';
 import { RecruitmentForm } from './components/RecruitmentForm';
 import { Footer } from './components/Footer';
 import { MatrixRain } from './components/MatrixRain';
-import Navbar from "./components/Navbar";
-
+import  Navbar  from "./components/Navbar";
+import Login from "./components/login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +21,13 @@ const App: React.FC = () => {
   const [isPlasmaActive, setIsPlasmaActive] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
+
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (u) => setUser(u));
+  }, []);
+
 
   useEffect(() => {
     // Initial entrance sequence
@@ -43,6 +52,20 @@ const App: React.FC = () => {
 
     return () => ScrollTrigger.getAll().forEach(t => t.kill());
   }, []);
+
+    if (!user) return <Login onLogin={() => {}} />;
+
+    {user && (
+  <button
+    onClick={() => auth.signOut()}
+    className="fixed top-4 right-4 px-4 py-2 border border-green-500 text-green-500 hover:bg-green-500 hover:text-black rounded z-50"
+  >
+    Logout
+  </button>
+)}
+
+    
+
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden" ref={mainRef}>
