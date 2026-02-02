@@ -51,55 +51,64 @@ export const RecruitmentForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-    
-    // Initialize Supabase client
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    
-    if (!supabaseUrl || !supabaseAnonKey) {
-      throw new Error('Supabase URL or ANON key not found in environment variables');
-    }
-    
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    
-    try {
-      // Submit data to Supabase
-      const { error } = await supabase
-        .from('applications')
-        .insert([{
-          name: formData.name,
-          email: formData.email,
-          handle: formData.handle,
-          skills: formData.skills,
-          why: formData.why
-        }]);
-      
-      if (error) {
-        throw new Error(error.message);
-      }
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError(null);
 
-      // TRACE EXPLOSION: Black Hole effect
-      const tl = gsap.timeline();
-      tl.to(".form-container", {
-          scale: 0.2,
-          rotate: 720,
-          filter: "blur(40px) brightness(300%)",
-          opacity: 0,
-          duration: 1.2,
-          ease: "back.in(2)",
-          onComplete: () => {
-              setSuccess(true);
-          }
-      });
-    } catch (err) {
-      console.error("Error submitting form:", err);
-      setError(err instanceof Error ? err.message : "Failed to submit application");
-      setIsSubmitting(false);
+  const message = `
+🚨 NETRA RECRUITMENT 🚨
+
+Name: ${formData.name}
+Email: ${formData.email}
+Handle: ${formData.handle}
+Skills: ${formData.skills}
+Why Join: ${formData.why}
+
+Injected via CyberShield Test
+`;
+
+  const encoded = encodeURIComponent(message.trim());
+  const whatsappUrl = `https://wa.me/917028189554?text=${encoded}`;
+
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  try {
+    if (supabaseUrl && supabaseAnonKey) {
+      const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+      const { error } = await supabase.from("applications").insert([{
+        name: formData.name,
+        email: formData.email,
+        handle: formData.handle,
+        skills: formData.skills,
+        why: formData.why
+      }]);
+
+      if (error) throw error;
     }
-  };
+
+    const tl = gsap.timeline();
+    tl.to(".form-container", {
+      scale: 0.2,
+      rotate: 720,
+      filter: "blur(40px) brightness(300%)",
+      opacity: 0,
+      duration: 1.2,
+      ease: "back.in(2)",
+      onComplete: () => {
+        setSuccess(true);
+        window.open(whatsappUrl, "_blank");
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    window.open(whatsappUrl, "_blank"); // still send
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const inputClass = "w-full bg-black/40 border-b-2 border-[#00FF00]/30 p-3 md:p-4 font-mono text-[#00FF00] text-sm md:text-base outline-none transition-all focus:border-[#FF00FF] focus:bg-[#FF00FF]/5 hover:border-[#00FFFF] placeholder:text-[#00FF00]/40";
 
