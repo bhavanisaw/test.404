@@ -10,7 +10,7 @@ import { RecruitmentForm } from './components/RecruitmentForm';
 import { Footer } from './components/Footer';
 import { MatrixRain } from './components/MatrixRain';
 import  Navbar  from "./components/Navbar";
-import Login from "./components/login";
+import Login from "./components/Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -54,16 +54,6 @@ const App: React.FC = () => {
   }, []);
 
     if (!user) return <Login onLogin={() => {}} />;
-
-    {user && (
-  <button
-    onClick={() => auth.signOut()}
-    className="fixed top-4 right-4 px-4 py-2 border border-green-500 text-green-500 hover:bg-green-500 hover:text-black rounded z-50"
-  >
-    Logout
-  </button>
-)}
-
     
 
 
