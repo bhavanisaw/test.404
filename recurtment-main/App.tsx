@@ -13,6 +13,8 @@ import  Navbar  from "./components/Navbar";
 import Login from "./components/Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import Loader from "./components/Loader";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,11 +55,15 @@ const App: React.FC = () => {
     return () => ScrollTrigger.getAll().forEach(t => t.kill());
   }, []);
 
-    if (!user) return <Login onLogin={() => {}} />;
-    
+    if (!initialized) {
+     return <Loader />;
+    }
+
+     if (!user) return <Login onLogin={() => {}} />;
 
 
   return (
+  
     <div className="relative min-h-screen bg-black overflow-hidden" ref={mainRef}>
       <Navbar />
 
@@ -67,15 +73,6 @@ const App: React.FC = () => {
       
       {/* Global Plasma Pulse Layer */}
       <div className={`plasma-layer ${isPlasmaActive ? 'plasma-active' : ''}`} />
-
-      {/* Loading Screen / Initial Flash */}
-      {!initialized && (
-        <div className="launch-overlay fixed inset-0 z-[10000] bg-black flex items-center justify-center">
-          <div className="text-[#00FF00] font-mono text-xl animate-pulse">
-            [ INITIALIZING_BREACH_PROTOCOL... ]
-          </div>
-        </div>
-      )}
 
             {/* Content */}
       <div className="relative z-10">

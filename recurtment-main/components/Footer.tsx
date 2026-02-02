@@ -11,7 +11,10 @@ export const Footer: React.FC = () => {
             <div className="h-[1px] w-64 bg-gradient-to-r from-transparent via-[#FF0000] to-transparent mx-auto" />
         </div>
 
-        <div className="text-[#00FF00]/40 font-mono text-[10px] tracking-widest uppercase text-center space-y-2 mt-8">
+        <div className="text-[#00FF00]/60 font-mono text-xs tracking-widest uppercase text-center space-y-2 mt-8">
+            <div className="text-[var(--neon-green)] text-sm tracking-wider">
+                Made for CyberShield test.
+         </div>
             <div>© 2026 Netra Ops. Forged in the abyss.</div>
             <div>[NEURAL_LINK: ACTIVE] [QUANTUM_PING: 0.001ms] [PROTOCOL: OMEGA-9]</div>
         </div>
