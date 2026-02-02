@@ -9,6 +9,8 @@ import { About } from './components/About';
 import { RecruitmentForm } from './components/RecruitmentForm';
 import { Footer } from './components/Footer';
 import { MatrixRain } from './components/MatrixRain';
+import Navbar from "./components/Navbar";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +46,8 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen bg-black overflow-hidden" ref={mainRef}>
+      <Navbar />
+
       {/* Background Layers */}
       <BackgroundCanvas />
       <MatrixRain />
@@ -60,16 +64,26 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Content */}
+            {/* Content */}
       <div className="relative z-10">
-        <Hero />
+        <div id="home" className="pt-8 md:pt-20">
+          <Hero />
+        </div>
+        
+
         <Teaser />
-        <div id="about-section">
+
+        <div id="about" className="pt-24">
           <About />
         </div>
-        <RecruitmentForm />
+
+        <div id="contact" className="pt-24">
+          <RecruitmentForm />
+        </div>
+
         <Footer />
       </div>
+
 
       {/* Global Sound Toggle (Placeholder UI) */}
       <div className="fixed bottom-8 left-8 z-[5000] flex space-x-2 items-center">
